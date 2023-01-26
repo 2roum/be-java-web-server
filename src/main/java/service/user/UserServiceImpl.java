@@ -1,6 +1,7 @@
 package service.user;
 
 import db.user.UserDatabase;
+import exception.DuplicateIdException;
 import model.User;
 
 import javax.naming.AuthenticationException;
@@ -40,7 +41,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void createUser(Map<String, String> params) {
+    public void createUser(Map<String, String> params) throws DuplicateIdException {
+        duplicateCheck(params.get("userId"));
         User user = new User(
                 params.get("userId"),
                 params.get("password"),
@@ -48,6 +50,12 @@ public class UserServiceImpl implements UserService {
                 params.get("email")
         );
         join(user);
+    }
+
+    private void duplicateCheck(String userId) throws DuplicateIdException{
+        User user = findUser(userId);
+        if (user != null)
+            throw new DuplicateIdException(userId);
     }
 
     @Override
