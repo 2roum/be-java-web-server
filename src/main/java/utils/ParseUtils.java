@@ -12,8 +12,8 @@ public class ParseUtils {
         Arrays.stream(queryString.split("&")).filter(param -> !param.startsWith("="))
                 .forEach(param -> {
                     String[] keyValuePair = param.split("=", 2);
-                    String name = URLDecoder.decode(keyValuePair[0], StandardCharsets.UTF_8);
-                    String value = keyValuePair.length > 1 ? URLDecoder.decode(keyValuePair[1], StandardCharsets.UTF_8) : "";
+                    String name = URLDecoder.decode(keyValuePair[0].trim(), StandardCharsets.UTF_8);
+                    String value = keyValuePair.length > 1 ? URLDecoder.decode(keyValuePair[1].trim(), StandardCharsets.UTF_8) : "";
                     map.put(name, value);
                 });
         return map;
